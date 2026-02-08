@@ -4,7 +4,7 @@ A simple command-line calculator built in Rust as part of my Week 1 learning pro
 
 ## Features
 
-- Basic arithmetic operations: addition, subtraction, multiplication, division
+- Basic arithmetic operations: addition, subtraction, multiplication, division, modulo and exponentiation
 - Input validation and error handling
 - Division by zero protection
 
