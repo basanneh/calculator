@@ -17,6 +17,8 @@ fn main() {
         "+" => first_number + second_number,
         "-" => first_number - second_number,
         "*" => first_number * second_number,
+        "%" => first_number % second_number,
+        "^" => first_number.powf(second_number),//exponentiation
         "/" => {
             if second_number == 0.0 {
                 eprintln!("Error: Division by zero is not allowed.");
