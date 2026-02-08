@@ -9,9 +9,21 @@ fn main() {
         return;
     }
     
-    let first_number: f64 = args[1].parse().expect("Please provide a valid number");
+    let first_number: f64 = match args[1].parse() {
+        Ok(num) => num,
+        Err(_) => {
+            eprintln!("Error: '{}' is not a valid number.", args[1]);
+            return;
+        }
+    };
     let operator = &args[2];
-    let second_number: f64 = args[3].parse().expect("Please provide a valid number");
+    let second_number: f64 = match args[3].parse() {
+        Ok(num) => num,
+        Err(_) => {
+            eprintln!("Error: '{}' is not a valid number.", args[3]);
+            return;
+        }
+    };
 
     let result = match operator.as_str() {
         "+" => first_number + second_number,
