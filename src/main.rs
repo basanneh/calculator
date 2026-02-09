@@ -1,14 +1,33 @@
 use std::env;
 
+fn calculate(first_number: f64, operator: &str, second_number: f64) -> Result<f64, String> {
+    match operator {
+        "+" => Ok(first_number + second_number),
+        "-" => Ok(first_number - second_number),
+        "*" => Ok(first_number * second_number),
+        "%" => Ok(first_number % second_number),
+        "^" => Ok(first_number.powf(second_number)), //exponentiation
+        "/" => {
+            if second_number == 0.0 {
+                Err("Division by zero is not allowed.".to_string())
+            } else {
+                Ok(first_number / second_number)
+            }
+        }
+        _ => Err(format!(
+            "Unsupported operator '{operator}'. Use +, -, *, /, %, or ^."
+        )),
+    }
+}
+
 fn main() {
     let args: Vec<String> = env::args().collect();
-
 
     if args.len() != 4 {
         eprintln!("Usage: calculator <number1> <operator> <number2>");
         return;
     }
-    
+
     let first_number: f64 = match args[1].parse() {
         Ok(num) => num,
         Err(_) => {
@@ -25,24 +44,12 @@ fn main() {
         }
     };
 
-    let result = match operator.as_str() {
-        "+" => first_number + second_number,
-        "-" => first_number - second_number,
-        "*" => first_number * second_number,
-        "%" => first_number % second_number,
-        "^" => first_number.powf(second_number),//exponentiation
-        "/" => {
-            if second_number == 0.0 {
-                eprintln!("Error: Division by zero is not allowed.");
-                return;
-            }
-            first_number / second_number
-        }
-        _ => {
-            eprintln!("Error: Unsupported operator '{}'. Use +, -, *, or /.", operator);
-            return;
-        }
-    };
-    println!("{} {} {} = {}", first_number, operator, second_number, result);
-}
+    match calculate(first_number, operator, second_number) {
+        Ok(result) => println!(
+            "{} {} {} = {}",
+            first_number, operator, second_number, result
+        ),
+        Err(e) => eprintln!("Error: {}", e),
+    }
 
+}
