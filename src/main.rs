@@ -1,4 +1,5 @@
-use calculator::calculate;
+use calculator::Command;
+use calculator::execute;
 use std::env;
 
 fn main() {
@@ -25,11 +26,42 @@ fn main() {
         }
     };
 
-    match calculate(first_number, operator, second_number) {
-        Ok(result) => println!(
-            "{} {} {} = {}",
-            first_number, operator, second_number, result
-        ),
-        Err(e) => eprintln!("Error: {}", e),
-    }
+    match operator.as_str() {
+        "+" => {
+            let result = execute(Command::Add(first_number, second_number));
+            match result {
+                Ok(value) => println!("Result: {}", value),
+                Err(e) => eprintln!("Error: {}", e),
+            }
+        }
+        "-" => {
+            let result = execute(Command::Subtract(first_number, second_number));
+            match result {
+                Ok(value) => println!("Result: {}", value),
+                Err(e) => eprintln!("Error: {}", e),
+            }
+        }
+        "*" => {
+            let result = execute(Command::Multiply(first_number, second_number));
+            match result {
+                Ok(value) => println!("Result: {}", value),
+                Err(e) => eprintln!("Error: {}", e),
+            }
+        }
+        "/" => {
+            let result = execute(Command::Divide(first_number, second_number));
+            match result {
+                Ok(value) => println!("Result: {}", value),
+                Err(e) => eprintln!("Error: {}", e),
+            }
+        }
+        "%" => {
+            let result = execute(Command::Mod(first_number, second_number));
+            match result {
+                Ok(value) => println!("Result: {}", value),
+                Err(e) => eprintln!("Error: {}", e),
+            }
+        }
+        _ => eprintln!("Unsupported operator '{}'. Use +, -, *, /, or %.", operator),
+    };
 }

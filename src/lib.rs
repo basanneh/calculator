@@ -1,19 +1,31 @@
-pub fn calculate(first_number: f64, operator: &str, second_number: f64) -> Result<f64, String> {
-    match operator {
-        "+" => Ok(first_number + second_number),
-        "-" => Ok(first_number - second_number),
-        "*" => Ok(first_number * second_number),
-        "%" => Ok(first_number % second_number),
-        "^" => Ok(first_number.powf(second_number)), //exponentiation
-        "/" => {
-            if second_number == 0.0 {
-                Err("Division by zero is not allowed.".to_string())
+pub enum Command {
+    Add(f64, f64),
+    Subtract(f64, f64),
+    Multiply(f64, f64),
+    Divide(f64, f64),
+    Mod(f64, f64),
+    Pow(f64, f64),
+}
+
+pub fn execute(cmd: Command) -> Result<f64, String> {
+    match cmd {
+        Command::Add(a, b) => Ok(a + b),
+        Command::Subtract(a, b) => Ok(a - b),
+        Command::Multiply(a, b) => Ok(a * b),
+        Command::Pow(a, b) => Ok(a.powf(b)), //exponentiation
+        Command::Mod(a, b) => {
+            if b == 0.0 {
+                Err("Zero cannot be the denominator".to_string())
             } else {
-                Ok(first_number / second_number)
+                Ok(a % b)
             }
         }
-        _ => Err(format!(
-            "Unsupported operator '{operator}'. Use +, -, *, /, %, or ^."
-        )),
+        Command::Divide(a, b) => {
+            if b == 0.0 {
+                Err("Zero cannot be the denominator".to_string())
+            } else {
+                Ok(a / b)
+            }
+        }
     }
 }
