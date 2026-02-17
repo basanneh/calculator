@@ -7,22 +7,29 @@ pub enum Command {
     Pow(f64, f64),
 }
 
-pub fn execute(cmd: Command) -> Result<f64, String> {
+#[derive(Debug)]
+pub enum CalcError {
+    DivideByZero,
+    ModByZero,
+    Unknown,
+}
+
+pub fn execute(cmd: Command) -> Result<f64, CalcError> {
     match cmd {
         Command::Add(a, b) => Ok(a + b),
         Command::Subtract(a, b) => Ok(a - b),
         Command::Multiply(a, b) => Ok(a * b),
         Command::Pow(a, b) => Ok(a.powf(b)), //exponentiation
         Command::Mod(a, b) => {
-            if b == 0.0 {
-                Err("Zero cannot be the denominator".to_string())
+            if b.abs() < f64::EPSILON {
+                Err(CalcError::ModByZero)
             } else {
                 Ok(a % b)
             }
         }
         Command::Divide(a, b) => {
-            if b == 0.0 {
-                Err("Zero cannot be the denominator".to_string())
+            if b.abs() < f64::EPSILON  {
+                Err(CalcError::DivideByZero)
             } else {
                 Ok(a / b)
             }

@@ -26,42 +26,22 @@ fn main() {
         }
     };
 
-    match operator.as_str() {
-        "+" => {
-            let result = execute(Command::Add(first_number, second_number));
-            match result {
-                Ok(value) => println!("Result: {}", value),
-                Err(e) => eprintln!("Error: {}", e),
-            }
+    let cmd = match operator.as_str() {
+        "+" => Command::Add(first_number, second_number),
+        "-" => Command::Subtract(first_number, second_number),
+        "*" => Command::Multiply(first_number, second_number),
+        "/" => Command::Divide(first_number, second_number),
+        "^" => Command::Pow(first_number, second_number),
+        "%" => Command::Mod(first_number, second_number),
+        _ => {
+            eprintln!("Unsupported operator '{}'. Use +, -, *, /, ^, or %.", operator);
+            return;
         }
-        "-" => {
-            let result = execute(Command::Subtract(first_number, second_number));
-            match result {
-                Ok(value) => println!("Result: {}", value),
-                Err(e) => eprintln!("Error: {}", e),
-            }
-        }
-        "*" => {
-            let result = execute(Command::Multiply(first_number, second_number));
-            match result {
-                Ok(value) => println!("Result: {}", value),
-                Err(e) => eprintln!("Error: {}", e),
-            }
-        }
-        "/" => {
-            let result = execute(Command::Divide(first_number, second_number));
-            match result {
-                Ok(value) => println!("Result: {}", value),
-                Err(e) => eprintln!("Error: {}", e),
-            }
-        }
-        "%" => {
-            let result = execute(Command::Mod(first_number, second_number));
-            match result {
-                Ok(value) => println!("Result: {}", value),
-                Err(e) => eprintln!("Error: {}", e),
-            }
-        }
-        _ => eprintln!("Unsupported operator '{}'. Use +, -, *, /, or %.", operator),
     };
-}
+
+    match execute(cmd) {
+        Ok(value) => println!("Result: {}", value),
+        Err(e) => eprintln!("Error: {:?}", e),
+    }
+
+   }
