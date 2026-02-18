@@ -14,6 +14,7 @@ pub enum CalcError {
     Unknown,
 }
 
+
 pub fn execute(cmd: Command) -> Result<f64, CalcError> {
     match cmd {
         Command::Add(a, b) => Ok(a + b),
