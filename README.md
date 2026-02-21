@@ -42,6 +42,7 @@ cargo run -- 15 "/" 3
 - `-` Subtraction
 - `*` Multiplication (use quotes: `"*"`)
 - `/` Division
+- `%` Modulo
 
 ## Learning Goals
 
